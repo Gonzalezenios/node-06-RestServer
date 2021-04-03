@@ -1,17 +1,24 @@
 const express = require('express');
-const config = require('../../config/index');
+const config = require('../../config');
 
 class ExpressServer {
 
     constructor() {
         this.app = express();
         this.port = config.port;
+        this.basePathUser = `${config.api.prefix}/users`;
 
         this._middlewares();
+
+        this._routes();
     }
 
-    middlewares() {
-        app.use(express.json());
+    _middlewares() {
+        this.app.use(express.json());
+    }
+
+    _routes() {
+        this.app.use(`${this.basePathUser}/users`, require('../../routes/users'));
     }
 
     async start() {
